@@ -26,7 +26,7 @@
         </nav>
         <div class="nav-actions">
             <a href="login.html" class="btn btn-secondary">Patient login</a>
-            <a href="register.html" class="btn btn-primary">Create account</a>
+            <a href="register.html" class="btn btn-primary">Create patient account</a>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
                 <svg class="icon" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
             </button>
@@ -52,6 +52,25 @@
                 <input type="text" id="fullName" name="fullName" placeholder="e.g. Naledi Dube" autocomplete="name">
                 <p class="field-error" id="err-fullName">Please enter your full name (first and last).</p>
             </div>
+
+            <!-- ID / PASSPORT - to tell patients with same name apart -->
+            <div class="form-row-2">
+                <div class="form-group">
+                    <label for="idType">ID Type</label>
+                    <select id="idType" name="idType">
+                        <option value="">Select ID type</option>
+                        <option value="sa-id">South African ID</option>
+                        <option value="passport">Passport</option>
+                    </select>
+                    <p class="field-error" id="err-idType">Please select your ID type.</p>
+                </div>
+                <div class="form-group">
+                    <label for="idNumber">ID Number / Passport Number</label>
+                    <input type="text" id="idNumber" name="idNumber" placeholder="e.g. 9901011234087 or A12345678" autocomplete="off">
+                    <p class="field-error" id="err-idNumber">Please enter a valid ID / Passport number.</p>
+                </div>
+            </div>
+            <p style="font-size:12px; color:#666; margin-top:-8px; margin-bottom:16px;">We use this as your unique identifier, so two patients with the same name and surname don't get mixed up.</p>
 
             <div class="form-row-2">
                 <div class="form-group">
@@ -98,7 +117,7 @@
                 <p class="field-error" id="err-confirmPassword">Passwords do not match.</p>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block" id="registerBtn">Create account</button>
+            <button type="submit" class="btn btn-primary btn-block" id="registerBtn">Create patient account</button>
 
             <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
         </form>
