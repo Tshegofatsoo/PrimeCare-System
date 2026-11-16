@@ -1,0 +1,44 @@
+# One-command local setup — no XAMPP/WAMP needed:
+#   docker compose up -d --build
+#   docker compose exec web php database/seed-staff.php --demo     (demo data + logins)
+#
+# Website : http://localhost:8080/primecarewebsite/
+# API ping: http://localhost:8080/primecarewebsite/api/staff/ping.php
+# App     : Settings > Server address = http://10.0.2.2:8080/primecarewebsite/   (emulator)
+#                                     = http://<your-PC-IP>:8080/primecarewebsite/ (real phone)
+#
+# These passwords are for LOCAL DEVELOPMENT ONLY.
+services:
+  db:
+    image: mariadb:10.11
+    environment:
+      MARIADB_ROOT_PASSWORD: primecare-local
+    volumes:
+      - dbdata:/var/lib/mysql
+      # Files in this folder run once, in name order, the first time the DB starts.
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./database/staff_migration.sql:/docker-entrypoint-initdb.d/02-staff.sql:ro
+      - ./database/invites_migration.sql:/docker-entrypoint-initdb.d/03-invites.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      PRIMECARE_DB_HOST: db
+      PRIMECARE_DB_USER: root
+      PRIMECARE_DB_PASS: primecare-local
+    volumes:
+      - .:/var/www/html/primecarewebsite
+    working_dir: /var/www/html/primecarewebsite
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  dbdata:
