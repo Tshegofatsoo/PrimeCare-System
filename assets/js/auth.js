@@ -91,10 +91,27 @@ document.addEventListener('DOMContentLoaded', function () {
         return age >= 0 && age <= 120;
     }
 
+    // NEW: ID / Passport validation - unique identifier for same-name patients
+    function isValidIdNumber(idType, idNumber) {
+        const val = idNumber.trim();
+        if (!idType) return false;
+        if (idType === 'sa-id') {
+            // SA ID must be exactly 13 digits
+            return /^\d{13}$/.test(val);
+        }
+        if (idType === 'passport') {
+            // Passport: 6 to 15 letters/numbers
+            return /^[A-Za-z0-9]{6,15}$/.test(val);
+        }
+        return false;
+    }
+
     /* ---------- Registration form ---------- */
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
         const fullName = document.getElementById('fullName');
+        const idType = document.getElementById('idType');
+        const idNumber = document.getElementById('idNumber');
         const email = document.getElementById('email');
         const phone = document.getElementById('phone');
         const dob = document.getElementById('dob');
@@ -103,12 +120,51 @@ document.addEventListener('DOMContentLoaded', function () {
         const banner = document.getElementById('formBanner');
         const submitBtn = document.getElementById('registerBtn');
 
+        // NEW: Auto-format ID as user types + update placeholder when type changes
+        if (idType && idNumber) {
+            idType.addEventListener('change', () => {
+                idNumber.value = '';
+                showError('idType', false);
+                showError('idNumber', false);
+                if (idType.value === 'sa-id') {
+                    idNumber.placeholder = 'e.g. 9901011234087 (13 digits)';
+                    idNumber.inputMode = 'numeric';
+                } else if (idType.value === 'passport') {
+                    idNumber.placeholder = 'e.g. A12345678';
+                    idNumber.inputMode = 'text';
+                } else {
+                    idNumber.placeholder = 'e.g. 9901011234087 or A12345678';
+                }
+            });
+            idNumber.addEventListener('input', () => {
+                if (idType.value === 'sa-id') {
+                    idNumber.value = idNumber.value.replace(/[^0-9]/g, '').slice(0, 13);
+                } else if (idType.value === 'passport') {
+                    idNumber.value = idNumber.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase().slice(0, 15);
+                }
+            });
+        }
+
         function validateRegisterForm() {
             let valid = true;
 
             const nameOk = fullName.value.trim().split(/\s+/).filter(Boolean).length >= 2;
             showError('fullName', !nameOk);
             valid = valid && nameOk;
+
+            // NEW: Validate ID Type + ID Number
+            const idTypeOk = idType && idType.value !== '';
+            showError('idType', !idTypeOk);
+            valid = valid && idTypeOk;
+
+            const idNumberOk = idType && idNumber && isValidIdNumber(idType.value, idNumber.value);
+            showError('idNumber', !idNumberOk);
+            // Show a helpful message for SA ID
+            if (!idNumberOk && idType && idType.value === 'sa-id') {
+                const errEl = document.getElementById('err-idNumber');
+                if (errEl) errEl.textContent = 'SA ID must be exactly 13 digits.';
+            }
+            valid = valid && idNumberOk;
 
             const emailOk = isValidEmail(email.value.trim());
             showError('email', !emailOk);
@@ -151,6 +207,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         fullName: fullName.value.trim(),
+                        idType: idType.value,
+                        idNumber: idNumber.value.trim(),
                         email: email.value.trim(),
                         phone: phone.value.trim(),
                         dob: dob.value,
@@ -180,17 +238,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 showBanner(banner, 'error', 'Could not reach the server. Please check your connection and try again.');
             } finally {
                 submitBtn.classList.remove('loading');
-                submitBtn.textContent = 'Create account';
+                submitBtn.textContent = 'Create patient account';
             }
         });
 
         // Clear individual field errors as the user corrects them
-        [fullName, email, phone, dob, password, confirmPassword].forEach(input => {
+        [fullName, idType, idNumber, email, phone, dob, password, confirmPassword].forEach(input => {
+            if (!input) return;
             input.addEventListener('input', () => {
                 input.classList.remove('invalid');
                 const err = document.getElementById('err-' + input.id);
                 if (err) err.classList.remove('show');
             });
+            // For the select dropdown, also clear on change
+            if (input.tagName === 'SELECT') {
+                input.addEventListener('change', () => {
+                    input.classList.remove('invalid');
+                    const err = document.getElementById('err-' + input.id);
+                    if (err) err.classList.remove('show');
+                });
+            }
         });
     }
 
@@ -239,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const response = await fetch('api/auth/login.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    credentials: 'same-origin', // ensures the PHP session cookie is sent/stored
+                    credentials: 'same-origin',
                     body: JSON.stringify({
                         email: loginEmail.value.trim(),
                         password: loginPassword.value,
@@ -253,8 +320,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     showBanner(banner, 'success', 'Login successful. Redirecting...');
                     setTimeout(() => { window.location.href = 'patient-dashboard.php'; }, 1000);
                 } else {
-                    // Generic message on purpose — never confirm whether the
-                    // email exists or the password was wrong specifically.
                     showBanner(banner, 'error', data.message || 'Invalid email or password.');
                 }
             } catch (err) {
@@ -304,9 +369,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 const data = await response.json();
 
-                // Always show the same neutral message, regardless of whether
-                // the account exists — prevents attackers from using this form
-                // to discover which emails are registered.
                 showBanner(banner, 'success', data.message || 'If that email is registered, a reset link has been sent.');
                 forgotForm.reset();
             } catch (err) {
