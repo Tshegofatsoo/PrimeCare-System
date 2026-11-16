@@ -4,7 +4,7 @@
 
 | | |
 |---|---|
-| **GitHub repository** |  |
+| **GitHub repository** | https://github.com/Tshegofatsoo/PrimeCare-System.git |
 | **Azure DevOps repository** | https://dev.azure.com/ST10457058/_git/Prime%20Care%20Medical%20Center |
 | **Website demo video** | https://youtu.be/e0TeuPSbWnw |
 | **Mobile app demo video** | https://youtu.be/KIvWMZuWXw8|
