@@ -3,7 +3,7 @@
  * PrimeCare — Patient Registration Endpoint
  * ---------------------------------------------------------
  * POST /api/auth/register.php
- * Body (JSON): { fullName, email, phone, dob, password }
+ * Body (JSON): { fullName, idType, idNumber, email, phone, dob, password }
  *
  * Server-side validation is authoritative. The client-side checks
  * in assets/js/auth.js only improve UX — they can be bypassed by
@@ -39,6 +39,8 @@ if (!is_array($input)) {
 
 // ---- Collect + trim raw input ----
 $fullName = trim($input['fullName'] ?? '');
+$idType   = trim($input['idType'] ?? '');
+$idNumber = trim($input['idNumber'] ?? '');
 $email    = trim($input['email'] ?? '');
 $phone    = trim($input['phone'] ?? '');
 $dob      = trim($input['dob'] ?? '');
@@ -52,6 +54,28 @@ if (count($nameParts) < 2) {
     $errors['fullName'] = 'Please enter your full name (first and last).';
 } elseif (mb_strlen($fullName) > 100) {
     $errors['fullName'] = 'Full name is too long.';
+}
+
+// ---- NEW: ID Type + ID / Passport Number ----
+// This is the unique identifier so two patients with the same
+// name and surname don't get mixed up.
+if (!in_array($idType, ['sa-id', 'passport'], true)) {
+    $errors['idType'] = 'Please select your ID type.';
+}
+
+if ($idType === 'sa-id') {
+    // SA ID must be exactly 13 digits
+    if (!preg_match('/^\d{13}$/', $idNumber)) {
+        $errors['idNumber'] = 'SA ID must be exactly 13 digits.';
+    }
+} elseif ($idType === 'passport') {
+    // Passport: 6-15 letters/numbers, stored uppercase
+    $idNumber = strtoupper($idNumber);
+    if (!preg_match('/^[A-Z0-9]{6,15}$/', $idNumber)) {
+        $errors['idNumber'] = 'Please enter a valid passport number (6-15 letters/numbers).';
+    }
+} elseif ($idNumber === '') {
+    $errors['idNumber'] = 'Please enter your ID / Passport number.';
 }
 
 // ---- Email ----
@@ -118,19 +142,36 @@ try {
         exit;
     }
 
+    // ---- NEW: Check for an existing account with this ID / Passport ----
+    // This is what stops two patients with the same name being confused.
+    $checkIdStmt = $pdo->prepare('SELECT patient_id FROM patients WHERE id_number = :id_number LIMIT 1');
+    $checkIdStmt->execute(['id_number' => $idNumber]);
+
+    if ($checkIdStmt->fetch()) {
+        http_response_code(409);
+        echo json_encode([
+            'success' => false,
+            'message' => 'An account with this ID / Passport number already exists.',
+            'errors'  => ['idNumber' => 'This ID / Passport number is already registered. Please log in instead.']
+        ]);
+        exit;
+    }
+
     // ---- Hash the password (never store plaintext) ----
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
     // ---- Insert the new patient (email doubles as username since no
     //      separate username was collected on the registration form) ----
     $insertStmt = $pdo->prepare(
-        'INSERT INTO patients (first_name, last_name, email, phone, username, password_hash, date_of_birth)
-         VALUES (:first_name, :last_name, :email, :phone, :username, :password_hash, :dob)'
+        'INSERT INTO patients (first_name, last_name, id_type, id_number, email, phone, username, password_hash, date_of_birth)
+         VALUES (:first_name, :last_name, :id_type, :id_number, :email, :phone, :username, :password_hash, :dob)'
     );
 
     $insertStmt->execute([
         'first_name'    => $firstName,
         'last_name'     => $lastName,
+        'id_type'       => $idType,
+        'id_number'     => $idNumber,
         'email'         => $email,
         'phone'         => $phoneDigits,
         'username'      => $email,
