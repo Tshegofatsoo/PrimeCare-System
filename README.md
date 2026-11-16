@@ -1,163 +1,180 @@
-<h1>PrimeCare Medical Centre</h1>
+# PrimeCare Medical Centre
 
-**Clinic Queue and Patient Record Management System**<br>
-Developed by **Tech Titans**.<br>
+**Clinic Queue and Patient Record Management System** — developed by **Tech Titans**
 
-<h2>Team Members and Roles</h2><br>
+| | |
+|---|---|
+| **GitHub repository** |  |
+| **Azure DevOps repository** | https://dev.azure.com/ST10457058/_git/Prime%20Care%20Medical%20Center |
+| **Website demo video** | https://youtu.be/e0TeuPSbWnw |
+| **Mobile app demo video** | https://youtu.be/KIvWMZuWXw8|
+| **Release notes** | [RELEASE_NOTES.md](RELEASE_NOTES.md) |
+| **Signed APK** | `TODO: link to the signed APK in GitHub Releases` |
 
- Keabetswe Mphago - Project Manager <br>
- Buhle Dlamini - Back-End Developer <br>
- Unathi Morake - Front-End Developer <br>
- Stacey Sibuyi - UI/UX Designer <br>
- Jarriath Marais - QA Tester <br>
+## Team
 
-<h2>Project Description</h2>
+| Name | Role |
+| Buhle Dlamini | Back-End Developer |
+| Unathi Morake | Front-End Developer |
 
-PrimeCare is a healthcare management solution designed to improve the way patients and clinic staff manage appointments, patient information and medical services.<br>
-<br>
-The project consists of a patient-facing website and an Android mobile application for clinic staff. The website helps patients manage their appointments and healthcare information, while the application supports administrators and doctors through role-based dashboards.<br>
-<br>
-The system aims to reduce manual administration, improve patient flow and provide a more convenient experience for patients and clinic staff.<br>
+---
 
-<h2>Client Problem</h2>
+## 1. Purpose of the system
 
-PrimeCare Medical Centre relies on manual, paper-based processes for patient registration, appointment scheduling and medical records. These can cause long waiting times, duplicate or misplaced records and difficulties coordinating care.<br>
-<br>
-The solution provides digital appointment booking, patient information management, queue management and secure medical record access.<br>
+PrimeCare Medical Centre relied on manual, paper-based processes for patient registration, appointment scheduling and medical records. This caused long waiting times, duplicate or misplaced records and poor coordination between reception and doctors.
 
-<h2>Website Scope</h2>
+PrimeCare replaces this with two connected products that share one backend and one database:
 
-The patient-facing website includes the following planned or documented functions:<br>
-- Viewing information about the medical centre<br>
-- Viewing healthcare services and doctor information<br>
-- Creating a patient account and logging in<br>
-- Password recovery and reset<br>
-- Booking, rescheduling and cancelling appointments<br>
-- Viewing upcoming appointments and appointment history<br>
-- Viewing medical records and prescriptions<br>
-- Requesting prescription repeats<br>
-- Updating personal profile information<br>
-- Viewing notifications and contacting the medical centre<br>
-<br>
-Patients must log in to access account-specific functionality.<br>
+- **Patient website** — patients book and manage appointments, see their records and prescriptions, and request repeat prescriptions.
+- **Staff Android app** — receptionists/administrators and doctors run the clinic day: check patients in, manage the queue, assign doctors, record consultations and issue prescriptions.
 
-<h2>Mobile Application Scope</h2>
+The aim is to reduce manual administration, improve patient flow and give both patients and staff a faster, more reliable experience.
 
-The Android application is designed for authorised clinic staff, with role-based access.<br>
+## 2. Features
 
-<h3>Administrator Dashboard</h3>
+### Patient website (HTML, CSS, JavaScript, PHP)
+- Information about the centre, services and doctors
+- Patient registration, login, password recovery and reset
+- Booking, rescheduling and cancelling appointments
+- Upcoming appointments and appointment history
+- Medical records and prescriptions, with repeat-prescription requests
+- Profile management, notifications and a contact form
 
-- View and manage patient appointments and daily schedules<br>
-- Register and check in walk-in patients<br>
-- Generate or manage queue numbers<br>
-- Assign patients to available doctors<br>
-- Update patient queue statuses<br>
-- Manage users and clinic operations where authorised<br>
+### Staff Android app (Kotlin) — role-based
 
-<h3>Doctor Dashboard</h3>
+**Administrator / reception**
+- Dashboard with the day's statistics
+- Today's appointments with search and status filters
+- Check-in of booked patients and registration of walk-in patients
+- Live queue with auto-refresh
+- Assigning patients to available doctors
+- **Inviting new staff** with one-time invitation codes (new in this release)
 
-- View daily schedules and assigned patients<br>
-- Access relevant patient histories and consultation information<br>
-- Record consultation notes and diagnoses<br>
-- Update medical records<br>
-- Issue prescriptions<br>
-- Mark consultations as completed or no-show<br>
+**Doctor**
+- Dashboard with assigned patients
+- Starting and saving consultations (notes, diagnosis)
+- Issuing prescriptions
+- Scheduling follow-up appointments
+- Approving or declining repeat-prescription requests
 
-<h3>Nursing Workflow</h3>
-
-The project documentation also describes nursing responsibilities, including viewing patient queues, recording vital signs and adding preliminary patient notes. Availability of a separate nursing dashboard should be confirmed against the final application.<br>
-
-<h2>Queue Management</h2>
-
-Clinic staff can track patient progress using statuses such as:<br>
-- Checked-in<br>
-- In consultation<br>
-- Awaiting test results<br>
-- Completed<br>
-<br>
-The design also calls for real-time updates and notifications about appointment changes and urgent tasks.<br>
-
-<h2>Technologies and Tools</h2>
-
-- HTML5, CSS3 and JavaScript — website interface<br>
-- PHP — server-side logic and APIs<br>
-- MySQL — relational database<br>
-- Visual Studio Code — development environment<br>
-- WAMP Server — local PHP/MySQL development<br>
-- Android Studio and Kotlin — Android application development<br>
-- Git and GitHub — version control and collaboration<br>
-- GitHub Actions — development workflow automation<br>
-- Azure DevOps - version control and work items <br>
-<br>
-These technologies reflect the project description; exact versions and workflow configuration should be checked in the source repositories.<br>
-
-<h2>System Architecture</h2>
-
-The documented design follows a three-tier structure:<br>
-- **Presentation layer:** Patient website and staff mobile application<br>
-- **Business logic layer:** PHP backend for appointments, queues, authentication and record handling<br>
-- **Data layer:** MySQL database for patient, doctor and appointment information<br>
-
-<h2>Running the Website Locally</h2>
-
-<h3>Requirements</h3>
-
-- WAMP Server with PHP and MySQL<br>
-- A modern web browser<br>
-- The website project files and database schema<br>
-
-<h3>Setup</h3>
-
-1. Install and start WAMP Server.<br>
-2. Copy the website project folder into the WAMP `www` directory.<br>
-3. Create a MySQL database named `primecare_db`.<br>
-4. Import the database schema from `database/schema.sql` (if this file is present in your repository).<br>
-5. Configure the database credentials in `api/config/db.php` (if this is the connection file in your project).<br>
-6. Open `http://localhost/<project-folder>/` in your browser, replacing `<project-folder>` with the actual folder name.<br>
-<br>
-**Note:** Database paths, credentials and the website entry point must be verified against the final source code. Do not commit real passwords or sensitive patient information.<br>
-
-<h2>Running the Android Application</h2>
-
-1. Open the Android project in Android Studio.<br>
-2. Allow Gradle to synchronise and install required dependencies.<br>
-3. Configure the application API endpoint to point to the running backend.<br>
-4. Run the application on an Android emulator or connected Android device.<br>
-<br>
-**Note:** The final Android project location, minimum Android version and exact API configuration are not specified in the supplied documentation.<br>
-
-<h2>Security and Privacy</h2>
-
-The system requirements include authentication, role-based access control, protection of patient records and compliance with South Africa's Protection of Personal Information Act (POPIA). The documentation calls for encryption of sensitive data in transit and at rest. These are project requirements and should be verified in the deployed implementation.<br>
-
-<h2>Testing and Deployment</h2>
-
-The project plan includes testing website navigation, forms, authentication, database interactions, appointment functions and role restrictions. Planned deliverables include a deployed website, Android APK, test documentation and user manual.<br>
-<br>
-**Website URL:** Website is a downloadable file in repository.<br>
-**Android APK:** APK is a downloadable file in repository.<br>
-**GitHub repository:** (https://github.com/Tshegofatsoo/primecare-project)<br>
-**Azure DevOps Repository:** (https://dev.azure.com/ST10457058/_git/Prime%20Care%20Medical%20Center)</br>
-**Youtube Demonstration Video Link (Website):**(https://youtu.be/e0TeuPSbWnw)</br>
-<br>
-**Running the Website Locally**
-The website currently uses PHP and MySQL and can be run using a local WAMP Server environment.<br>
-
-**Requirements**<br>
--WAMP Server<br>
--MySQL<br>
--PHP<br>
--Web browser<br>
-
-**Setup**
--Install and start WAMP Server.<br>
--Place the project folder inside the WAMP www directory.<br>
--Create the primecare_db database in MySQL.<br>
--Use the provided database schema located in: database/schema.sql<br>
--Configure the local database connection in: api/config/db.php<br>
-
-**Start Apache and MySQL through WAMP Server.**<br>
-Open the project through the local WAMP address in a web browser.<br>
-The local database configuration file is excluded from the GitHub repository using .gitignore because it contains local database connection settings.<br>
+**Both roles**
+- Secure login (email + password, or Google sign-in), profile editing, password change
+- Configurable server address and a built-in help / user guide
 
 
+## 4. Design considerations
+
+### One design system across website and app
+The website's design tokens (`assets/css/style.css`) are mirrored in the app (`res/values/colors.xml`), so patients and staff experience one product: the same primary blue (`#0F62C4`), neutral greys, green/amber/red status colours, 16 dp rounded cards and clear status pills. Colour is never the only signal; every status also has a text label.
+
+### Role-based design
+Staff land on a different dashboard depending on their role (administrator or doctor), and only see the actions their role needs. The server enforces this independently of the app, so hiding a button is never the only protection.
+
+### Usability
+- Large touch targets (52 dp buttons) and one primary action per screen
+- Clear, plain-language error messages instead of technical ones
+- Forms validate **as the user types** and again on submit, showing all problems at once
+- Pull-to-refresh and auto-refresh keep the queue current
+- A built-in help screen explains each workflow
+
+### Three-tier architecture
+- **Presentation:** patient website and staff Android app
+- **Business logic:** PHP REST-style JSON API (`api/staff/...` for the app, `api/...` for the website)
+- **Data:** MySQL database (`primecare_db`)
+
+The app has no data of its own. Every action is an authenticated request to the API, so the website and the app always show the same information.
+
+### Security and privacy (POPIA)
+- Passwords are stored only as bcrypt hashes (PHP `password_hash`), never as plain text
+- Staff sessions use random tokens that expire after 12 hours; the app keeps its token in `EncryptedSharedPreferences`
+- Login and registration are rate-limited per IP address to slow down guessing
+- SQL uses prepared statements throughout
+- Role checks are made on the server for every staff endpoint
+- Staff registration uses one-time invitation codes (see below)
+
+### Staff registration: one-time invitation codes
+The prototype used a single shared clinic code for registration. A shared code can be reused by anyone who learns it, cannot be revoked and does not identify who issued it. It was replaced with per-person invitation codes:
+
+| Property | Effect |
+|---|---|
+| Created by an administrator in the app | Only authorised staff can invite people |
+| Tied to one email address and one role | A leaked code is useless to anyone else; users cannot choose their own role |
+| Single use | The code is destroyed when the account is created |
+| Expires after 48 hours | Limits the time window for misuse |
+| Random 10-character code (about 10^15 combinations, no confusing characters like 0/O/1/I) | Cannot be guessed |
+| Stored only as a keyed hash | A database leak does not reveal usable codes |
+| Locked after 5 wrong attempts | Blocks brute-force guessing |
+| Same error message for every failure | Does not reveal which emails have invitations |
+
+The first administrator of a fresh install is created from the command line: `php database/create-invite.php you@clinic.co.za ADMIN`.
+
+### Input validation (app and server)
+The same rules are checked on the phone and again on the server: names (letters, spaces, hyphens, apostrophes), email format and length, passwords of 8–72 characters with a letter and a number, rejection of common passwords and of passwords containing the email name, and invitation-code format.
+
+## 5. Technologies and tools
+
+| Area | Tools |
+|---|---|
+| Website | HTML5, CSS3, JavaScript |
+| Backend | PHP 8, MySQL / MariaDB |
+| Android app | Kotlin, Android Studio, Material 3, Navigation component, Retrofit + OkHttp, Gson, AndroidX Security (EncryptedSharedPreferences), Android Credentials API (Google sign-in) |
+| Local server | WAMP Server (Docker setup also provided, see `RUNNING-WITHOUT-XAMPP.md`) |
+| Version control | Git, GitHub, Azure DevOps |
+| Automation | GitHub Actions |
+
+## 6. GitHub and GitHub Actions
+
+The source code for both the website and the Android app lives in the GitHub repository above; the team also tracks work items and keeps a mirror on Azure DevOps.
+
+**GitHub Actions** builds the app automatically (`.github/workflows/`):
+
+| Workflow | Runs when | What it does |
+|---|---|---|
+| **Android CI** (`android.yml`) | every push to `main`/`master`, every pull request, or manually | Sets up JDK 17 and Gradle with caching, runs the unit tests (`testDebugUnitTest`), builds the debug APK (`assembleDebug`), then uploads the **unit-test report** and the **debug APK** as downloadable artifacts |
+| **Build APK** (`build.yml`) | every push to `main`, or manually | Builds the debug APK and uploads it as an artifact |
+
+Benefits for the team: every change is compiled on a clean machine, so "it works on my laptop" problems are found immediately; test results are visible to everyone; and a fresh installable APK is available after every push, which the QA tester uses for testing on real phones.
+
+To download a build: **GitHub → Actions → choose a run → Artifacts**.
+
+## 7. Running the system
+
+### Backend (website and API) with WAMP
+1. Install and start **WAMP Server**.
+2. Copy the website folder into WAMP's `www` folder and name it `primecarewebsite`.
+3. In phpMyAdmin, import these files into the `primecare_db` database, **in this order**:
+   1. `database/schema.sql`
+   2. `database/staff_migration.sql`
+   3. `database/invites_migration.sql`
+4. Check the database settings in `api/config/db.php` (WAMP defaults: user `root`, empty password). This file's real credentials are not committed.
+5. Check the API: open `http://localhost/primecarewebsite/api/staff/ping.php`.
+6. Create the first administrator: either `php database/seed-staff.php --demo` (demo data and logins) or `php database/create-invite.php you@clinic.co.za ADMIN` (prints a one-time code to use in the app's *Create a staff account* screen).
+
+Without WAMP, see [RUNNING-WITHOUT-XAMPP.md](RUNNING-WITHOUT-XAMPP.md) (Docker or PHP's built-in server).
+
+### Android app
+1. Open the Android project in **Android Studio** and let Gradle sync (minimum Android 7.0, API 24).
+2. Run it on an emulator or a USB-connected phone.
+3. On the login screen open **Server settings** and enter the server address:
+   - Emulator: `http://10.0.2.2/primecarewebsite/`
+   - Real phone on the same Wi-Fi: `http://<your-PC-IP>/primecarewebsite/`
+4. Tap **Test connection**, then log in.
+
+More detail for phones: see [INSTALL-ON-PHONE.md](INSTALL-ON-PHONE.md).
+
+## 8. Testing
+
+JUnit unit tests (run with `./gradlew testDebugUnitTest`, and automatically by GitHub Actions) cover the validators, API error handling, app settings, appointment data models and formatting helpers. The QA tester also tested the system manually against the role restrictions, forms, authentication and appointment/queue flows on emulators and real devices.
+
+## 9. Release notes
+
+See [RELEASE_NOTES.md](RELEASE_NOTES.md) for every update since the prototype, including the new features of this version.
+
+## 10. Publishing
+
+`TODO: add the evidence required for publication — signed release APK, screenshots, and a screenshot of the app in the Google Play Console.`
+
+## 11. Notes
+
+- Real database credentials, keystores and patient data are never committed to the repository.
+- The app allows plain HTTP only so it can reach a local development server. A production deployment must use HTTPS.
