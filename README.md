@@ -8,11 +8,11 @@
 | **Azure DevOps repository** | https://dev.azure.com/ST10457058/_git/Prime%20Care%20Medical%20Center |
 | **Website demo video** | https://youtu.be/e0TeuPSbWnw |
 | **Mobile app demo video** | https://drive.google.com/file/d/1QBOaDbSeAGM1TqZZCIg9nECEyygCStoY/view?usp=sharing|
-| **Release notes** | [RELEASE_NOTES.md](RELEASE_NOTES.md) |
+
 
 ## Team
- Buhle Dlamini - Back-End Developer 
- Unathi Morake - Front-End Developer 
+1. Buhle Dlamini - Back-End Developer
+2. Unathi Morake - Front-End Developer 
 
 ---
 
@@ -115,7 +115,7 @@ The same rules are checked on the phone and again on the server: names (letters,
 | Website | HTML5, CSS3, JavaScript |
 | Backend | PHP 8, MySQL / MariaDB |
 | Android app | Kotlin, Android Studio, Material 3, Navigation component, Retrofit + OkHttp, Gson, AndroidX Security (EncryptedSharedPreferences), Android Credentials API (Google sign-in) |
-| Local server | WAMP Server (Docker setup also provided, see `RUNNING-WITHOUT-XAMPP.md`) |
+| Local server | WAMP Server (Docker setup also provided) |
 | Version control | Git, GitHub, Azure DevOps |
 | Automation | GitHub Actions |
 
@@ -147,7 +147,6 @@ To download a build: **GitHub → Actions → choose a run → Artifacts**.
 5. Check the API: open `http://localhost/primecarewebsite/api/staff/ping.php`.
 6. Create the first administrator: either `php database/seed-staff.php --demo` (demo data and logins) or `php database/create-invite.php you@clinic.co.za ADMIN` (prints a one-time code to use in the app's *Create a staff account* screen).
 
-Without WAMP, see [RUNNING-WITHOUT-XAMPP.md](RUNNING-WITHOUT-XAMPP.md) (Docker or PHP's built-in server).
 
 ### Android app
 1. Open the Android project in **Android Studio** and let Gradle sync (minimum Android 7.0, API 24).
@@ -157,19 +156,15 @@ Without WAMP, see [RUNNING-WITHOUT-XAMPP.md](RUNNING-WITHOUT-XAMPP.md) (Docker o
    - Real phone on the same Wi-Fi: `http://<your-PC-IP>/primecarewebsite/`
 4. Tap **Test connection**, then log in.
 
-More detail for phones: see [INSTALL-ON-PHONE.md](INSTALL-ON-PHONE.md).
 
 ## 8. Testing
 
 JUnit unit tests (run with `./gradlew testDebugUnitTest`, and automatically by GitHub Actions) cover the validators, API error handling, app settings, appointment data models and formatting helpers. The QA tester also tested the system manually against the role restrictions, forms, authentication and appointment/queue flows on emulators and real devices.
 
-## 9. Release notes
 
-See [RELEASE_NOTES.md](RELEASE_NOTES.md) for every update since the prototype, including the new features of this version.
+## 9. Publishing
 
-## 10. Publishing
-
-`TODO: add the evidence required for publication — signed release APK, screenshots, and a screenshot of the app in the Google Play Console.`
+Evidence Added to the submitted document.
 
 ## 11. Notes
 
