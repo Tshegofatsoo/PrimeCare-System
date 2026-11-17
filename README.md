@@ -9,7 +9,6 @@
 | **Website demo video** | https://youtu.be/e0TeuPSbWnw |
 | **Mobile app demo video** | https://youtu.be/KIvWMZuWXw8|
 | **Release notes** | [RELEASE_NOTES.md](RELEASE_NOTES.md) |
-| **Signed APK** | `TODO: link to the signed APK in GitHub Releases` |
 
 ## Team
 
