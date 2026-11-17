@@ -11,10 +11,8 @@
 | **Release notes** | [RELEASE_NOTES.md](RELEASE_NOTES.md) |
 
 ## Team
-
-| Name | Role |
-| Buhle Dlamini | Back-End Developer |
-| Unathi Morake | Front-End Developer |
+ Buhle Dlamini - Back-End Developer 
+ Unathi Morake - Front-End Developer 
 
 ---
 
